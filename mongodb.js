@@ -10,22 +10,25 @@ function startConnection(){
 // close connection
 function closeConnection(){
     console.log('closing connection...')
-    client.close();
+    if(client != undefined) client.close();
 }
 const uri = "mongodb://127.0.0.1:27017";
 const databaseName = 'library'
 const collectionName = 'books'
 
 
-exports.insert =  async function(title, author) {
+exports.insert =  async function(addBook) {
   try {
-    console.log('inserting...', title, author)
+    console.log('inserting...')
+    //console.log(addBook)
+    console.log(addBook.title)
+    console.log(addBook.author)
     startConnection()
     const database = client.db(databaseName);
     const books = database.collection(collectionName);
     const book = await books.insertOne({
-        title:title,
-        author:author
+        title:addBook.title,
+        author:addBook.author
     })
     return book;    
   } finally {
